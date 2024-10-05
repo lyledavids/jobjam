@@ -75,7 +75,7 @@
   {#if !isEmployer && job && job.isOpen}
     <div class="bg-white shadow-md rounded-lg p-6 mb-6">
       <h3 class="text-xl font-semibold mb-4">Submit a Proposal</h3>
-      <ProposalForm jobId=$page.params.id on:proposalSubmitted={handleSubmitProposal} />
+      <ProposalForm jobId={$page.params.id} on:proposalSubmitted={handleSubmitProposal} />
     </div>
   {/if}
 
