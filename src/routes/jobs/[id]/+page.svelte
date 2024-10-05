@@ -40,7 +40,7 @@
   <div class="bg-white shadow-md rounded-lg p-6 mb-6">
     <h2 class="text-2xl font-semibold mb-2">{job.title}</h2>
     <p class="text-gray-600 mb-4">{job.description}</p>
-    <span class="text-indigo-600 font-medium">Budget: {formatEther(job.budget)} ETH</span>
+    <span class="text-indigo-600 font-medium">Budget: {formatEther(job.budget)} KLAY(KAIA)</span>
   </div>
 {/if}
 

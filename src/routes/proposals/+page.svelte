@@ -47,7 +47,7 @@
           <h2 class="text-xl font-semibold mb-2">{proposal.job.title}</h2>
           <p class="text-gray-600 mb-4">Job ID: {proposal.jobId}</p>
           <div class="flex justify-between items-center">
-            <span class="text-indigo-600 font-medium">Budget: {formatEther(proposal.job.budget)} ETH</span>
+            <span class="text-indigo-600 font-medium">Budget: {formatEther(proposal.job.budget)} KLAY(KAIA)</span>
             <span class="text-gray-600">Status: {proposal.isCompleted ? 'Completed' : 'In Progress'}</span>
           </div>
           <div class="mt-4">

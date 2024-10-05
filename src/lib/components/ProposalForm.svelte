@@ -43,7 +43,7 @@
     </div>
   
     <div class="mb-4">
-      <label for="bid" class="block text-sm font-medium text-gray-700">Bid (ETH)</label>
+      <label for="bid" class="block text-sm font-medium text-gray-700">Bid KLAY(KAIA)</label>
       <input
         type="number"
         id="bid"
