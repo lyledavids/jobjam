@@ -45,8 +45,12 @@
         <p class="font-semibold">{job.title}</p>
         <!-- <p>Job ID: {job.jobId}</p> -->
         <p>Role: {job.isEmployer ? 'Employer' : 'Freelancer'}</p>
-        <p>Budget: {job.budget ? formatEther(job.budget) : 'N/A'} KLAY(KAIA)</p>
+        <!-- <p>Budget: {job.budget ? formatEther(job.budget) : 'N/A'} KLAY(KAIA)</p> -->
         <!-- <p>Status: {getJobStatus(job.jobId)}</p> -->
+        <div class="flex justify-between items-center">
+            <span class="text-indigo-600 font-medium">Budget: {formatEther(job.budget)} KLAY(KAIA)</span>
+            <a href="/jobs/{job.id}" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium">View Details</a>
+        </div>
       </div>
     {/each}
   </div>
