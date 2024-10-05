@@ -1,18 +1,31 @@
 <script>
     import { onMount } from 'svelte';
-    import { getUserProfile } from '$lib/contract';
-    import { shortenAddress, formatEther } from '$lib/utils';
+    import { getUserProfile, formatEther ,getJobs } from '$lib/contract';
+    import { shortenAddress } from '$lib/utils';
   
     let userProfile = [];
     let address = '';
+    let allJobs = [];
   
     onMount(async () => {
       if (typeof window !== 'undefined' && window.ethereum) {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         address = accounts[0];
         userProfile = await getUserProfile(address);
+        allJobs = await getJobs();
       }
     });
+  
+    function getJobTitle(jobId) {
+      const job = allJobs.find(j => j.id.toString() === jobId.toString());
+      return job ? job.title : 'Unknown Job';
+    }
+  
+    function getJobStatus(job) {
+      if (job.isCompleted) return 'Completed';
+      if (!allJobs.find(j => j.id.toString() === job.jobId.toString())?.isOpen) return 'Closed';
+      return 'In Progress';
+    }
   </script>
   
   <svelte:head>
@@ -28,11 +41,11 @@
   <div class="grid gap-4">
     {#each userProfile as job (job.jobId)}
       <div class="bg-white shadow-md rounded-lg p-4">
-        <h3 class="text-lg font-semibold mb-2">{job.title}</h3>
+        <p class="font-semibold">{getJobTitle(job.jobId)}</p>
         <p>Job ID: {job.jobId}</p>
         <p>Role: {job.isEmployer ? 'Employer' : 'Freelancer'}</p>
-        <p>Status: {job.isCompleted ? 'Completed' : 'In Progress'}</p>
         <p>Budget: {job.budget ? formatEther(job.budget) : 'N/A'} KLAY(KAIA)</p>
+        <p>Status: {getJobStatus(job)}</p>
       </div>
     {/each}
   </div>

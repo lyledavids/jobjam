@@ -6,13 +6,14 @@
 
   let userProposals = [];
   let address = '';
+  let allJobs = [];
 
   onMount(async () => {
     if (typeof window !== 'undefined' && window.ethereum) {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
       address = accounts[0];
       const profile = await getUserProfile(address);
-      const allJobs = await getJobs();
+      allJobs = await getJobs();
 
       userProposals = profile
         .filter(item => !item.isEmployer)
@@ -20,7 +21,7 @@
           const job = allJobs.find(j => j.id.toString() === item.jobId.toString());
           return {
             ...item,
-            job: job || { title: 'Unknown Job', budget: '0' }
+            job: job || { title: 'Unknown Job', budget: '0', isOpen: false }
           };
         });
     }
@@ -28,6 +29,12 @@
 
   function handleViewJob(jobId) {
     window.location.href = `/jobs/${jobId}`;
+  }
+
+  function getJobStatus(proposal) {
+    if (proposal.isCompleted) return 'Completed';
+    if (!proposal.job.isOpen) return 'Closed';
+    return 'In Progress';
   }
 </script>
 
@@ -48,7 +55,7 @@
           <p class="text-gray-600 mb-4">Job ID: {proposal.jobId}</p>
           <div class="flex justify-between items-center">
             <span class="text-indigo-600 font-medium">Budget: {formatEther(proposal.job.budget)} KLAY(KAIA)</span>
-            <span class="text-gray-600">Status: {proposal.isCompleted ? 'Completed' : 'In Progress'}</span>
+            <span class="text-gray-600">Status: {getJobStatus(proposal)}</span>
           </div>
           <div class="mt-4">
             <Button on:click={() => handleViewJob(proposal.jobId)}>View Job Details</Button>
