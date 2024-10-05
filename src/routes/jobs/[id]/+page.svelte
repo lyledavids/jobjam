@@ -5,6 +5,7 @@
   import { formatEther, shortenAddress, parseEther } from '$lib/utils';
   import ProposalCard from '$lib/components/ProposalCard.svelte';
   import Button from '$lib/components/Button.svelte';
+  import ProposalForm from '../../../lib/components/ProposalForm.svelte';
 
   let job;
   let proposals = [];
@@ -74,31 +75,7 @@
   {#if !isEmployer && job && job.isOpen}
     <div class="bg-white shadow-md rounded-lg p-6 mb-6">
       <h3 class="text-xl font-semibold mb-4">Submit a Proposal</h3>
-      <form on:submit|preventDefault={handleSubmitProposal} class="space-y-4">
-        <div>
-          <label for="description" class="block text-sm font-medium text-gray-700">Proposal Description</label>
-          <textarea
-            id="description"
-            bind:value={proposalDescription}
-            required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-            rows="4"
-          ></textarea>
-        </div>
-        <div>
-          <label for="bid" class="block text-sm font-medium text-gray-700">Bid Amount (ETH)</label>
-          <input
-            type="number"
-            id="bid"
-            bind:value={proposalBid}
-            required
-            step="0.01"
-            min="0"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-          />
-        </div>
-        <Button type="submit">Submit Proposal</Button>
-      </form>
+      <ProposalForm jobId=$page.params.id on:proposalSubmitted={handleSubmitProposal} />
     </div>
   {/if}
 
