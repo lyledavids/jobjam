@@ -1,0 +1,17 @@
+src/
+  lib/
+    components/
+      NetworkChecker.svelte
+    stores/
+      contract.js
+    utils/
+      contractHelpers.js
+  routes/
+    +layout.svelte
+    +page.svelte
+    create-job/+page.svelte
+    jobs/[id]/+page.svelte
+    jobs/[id]/submit-proposal/+page.svelte
+    jobs/[id]/manage-milestones/+page.svelte
+    admin/+page.svelte
+  app.css
