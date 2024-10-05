@@ -33,6 +33,24 @@ export async function getJobs() {
   return jobs;
 }
 
+export async function getMyJobs(address) {
+    const contract = await initializeContract();
+    const jobCount = await contract.jobIdCounter();
+    const jobs = [];
+    // const currentAddress = await waitForAddress();
+    // console.log(currentAddress);
+    const currentAddress = ethers.getAddress(address);
+    console.log(currentAddress);
+    for (let i = 1; i <= jobCount; i++) {
+      const job = await contract.jobs(i);
+      if (job.isOpen && job.employer===currentAddress) {
+        jobs.push(job);
+      }
+    }
+  
+    return jobs;
+  }
+
 export async function createJob(title, description, budget) {
   const contract = await initializeContract();
   const tx = await contract.createJob(title, description, ethers.parseEther(budget.toString()), {

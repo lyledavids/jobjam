@@ -17,6 +17,7 @@
     });
   
     function getJobTitle(jobId) {
+        console.log(allJobs)
       const job = allJobs.find(j => j.id.toString() === jobId.toString());
       return job ? job.title : 'Unknown Job';
     }
@@ -41,11 +42,11 @@
   <div class="grid gap-4">
     {#each userProfile as job (job.jobId)}
       <div class="bg-white shadow-md rounded-lg p-4">
-        <p class="font-semibold">{getJobTitle(job.jobId)}</p>
-        <p>Job ID: {job.jobId}</p>
+        <p class="font-semibold">{job.title}</p>
+        <!-- <p>Job ID: {job.jobId}</p> -->
         <p>Role: {job.isEmployer ? 'Employer' : 'Freelancer'}</p>
         <p>Budget: {job.budget ? formatEther(job.budget) : 'N/A'} KLAY(KAIA)</p>
-        <p>Status: {getJobStatus(job)}</p>
+        <!-- <p>Status: {getJobStatus(job.jobId)}</p> -->
       </div>
     {/each}
   </div>
