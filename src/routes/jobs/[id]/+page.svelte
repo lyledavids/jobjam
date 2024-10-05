@@ -5,6 +5,7 @@
   import { formatEther, shortenAddress } from '$lib/utils';
   import ProposalCard from '$lib/components/ProposalCard.svelte';
   import Button from '$lib/components/Button.svelte';
+  import ProposalForm from '$lib/components/ProposalForm.svelte';
 
   let job;
   let proposals = [];
@@ -54,6 +55,8 @@
   </div>
 {/if}
 
+<ProposalForm jobId={$page.params.id} on:proposalSubmitted={handleProposalSubmitted} />
+
 <h2 class="text-2xl font-semibold mb-4">Proposals</h2>
 
 {#each proposals as proposal (proposal.id)}
@@ -63,6 +66,8 @@
     showAcceptButton={isEmployer && job.isOpen} 
   />
 {/each}
+
+
 
 {#if isEmployer && proposals.find(p => p.isAccepted) && job.isOpen}
   <Button on:click={() => handleReleasePayment(proposals.find(p => p.isAccepted).id)}>Release Payment</Button>
