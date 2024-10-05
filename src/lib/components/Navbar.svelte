@@ -24,6 +24,7 @@
             <a href="/" class="border-indigo-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" class:border-indigo-500={$page.url.pathname === '/'}>Home</a>
             <a href="/jobs" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" class:border-indigo-500={$page.url.pathname === '/jobs'}>Jobs</a>
             <a href="/create-job" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" class:border-indigo-500={$page.url.pathname === '/create-job'}>Create Job</a>
+            <a href="/proposals" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" class:border-indigo-500={$page.url.pathname === '/proposals'}>My Proposals</a>
             <a href="/profile" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium" class:border-indigo-500={$page.url.pathname === '/profile'}>Profile</a>
           </div>
         </div>

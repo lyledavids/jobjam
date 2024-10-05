@@ -1,35 +1,60 @@
 <script>
-    import { onMount } from 'svelte';
-    import { getSigner } from '$lib/ethers-utils.js';
-    import { getUserProposals } from '$lib/contract-utils.js';
-  
-    let proposals = [];
-  
-    onMount(async () => {
-      const signer = getSigner();
-      const address = await signer.getAddress();
-      proposals = await getUserProposals(address);
-    });
-  </script>
-  
+  import { onMount } from 'svelte';
+  import { getUserProfile, getJobs } from '$lib/contract';
+  import { formatEther, shortenAddress } from '$lib/utils';
+  import Button from '$lib/components/Button.svelte';
+
+  let userProposals = [];
+  let address = '';
+
+  onMount(async () => {
+    if (typeof window !== 'undefined' && window.ethereum) {
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      address = accounts[0];
+      const profile = await getUserProfile(address);
+      const allJobs = await getJobs();
+
+      userProposals = profile
+        .filter(item => !item.isEmployer)
+        .map(item => {
+          const job = allJobs.find(j => j.id.toString() === item.jobId.toString());
+          return {
+            ...item,
+            job: job || { title: 'Unknown Job', budget: '0' }
+          };
+        });
+    }
+  });
+
+  function handleViewJob(jobId) {
+    window.location.href = `/jobs/${jobId}`;
+  }
+</script>
+
+<svelte:head>
+  <title>JobJam - My Proposals</title>
+</svelte:head>
+
+<div class="max-w-4xl mx-auto">
   <h1 class="text-3xl font-bold mb-6">My Proposals</h1>
-  
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    {#each proposals as proposal (proposal.id)}
-      <div class="bg-white shadow-md rounded-lg p-6">
-        <h2 class="text-xl font-semibold mb-2">{proposal.jobTitle}</h2>
-        <p class="text-gray-600 mb-2">{proposal.description}</p>
-        <div class="flex justify-between items-center">
-          <span class="text-blue-600 font-bold">{proposal.bid} KLAY(KAIA)</span>
-          <span class={proposal.isAccepted ? 'text-green-500' : 'text-yellow-500'}>
-            {proposal.isAccepted ? 'Accepted' : 'Pending'}
-          </span>
-        </div>
-        <a href={`/job/${proposal.jobId}`} class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">View Job</a>
-      </div>
-    {/each}
-  </div>
-  
-  {#if proposals.length === 0}
+
+  {#if userProposals.length === 0}
     <p class="text-gray-600">You haven't submitted any proposals yet.</p>
+  {:else}
+    <div class="space-y-6">
+      {#each userProposals as proposal (proposal.jobId)}
+        <div class="bg-white shadow-md rounded-lg p-6">
+          <h2 class="text-xl font-semibold mb-2">{proposal.job.title}</h2>
+          <p class="text-gray-600 mb-4">Job ID: {proposal.jobId}</p>
+          <div class="flex justify-between items-center">
+            <span class="text-indigo-600 font-medium">Budget: {formatEther(proposal.job.budget)} ETH</span>
+            <span class="text-gray-600">Status: {proposal.isCompleted ? 'Completed' : 'In Progress'}</span>
+          </div>
+          <div class="mt-4">
+            <Button on:click={() => handleViewJob(proposal.jobId)}>View Job Details</Button>
+          </div>
+        </div>
+      {/each}
+    </div>
   {/if}
+</div>
