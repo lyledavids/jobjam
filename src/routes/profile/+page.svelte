@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte';
-    import { getUserProfile, formatEther ,getJobs } from '$lib/contract';
-    import { shortenAddress } from '$lib/utils';
+    import { getUserProfile ,getJobs } from '$lib/contract';
+    import { shortenAddress, formatEther} from '$lib/utils';
   
     let userProfile = [];
     let address = '';
